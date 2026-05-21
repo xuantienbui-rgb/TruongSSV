@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CFP Report — BCIS Leadgen 3</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary: #175ae2;
+    --primary-dark: #0f3fa8;
+    --primary-light: #e8effd;
+    --accent: #f0a500;
+    --danger: #e53e3e;
+    --success: #38a169;
+    --text: #1a202c;
+    --text-muted: #718096;
+    --border: #e2e8f0;
+    --bg: #f7f9fc;
+    --card-bg: #ffffff;
+    --radius: 12px;
+    --shadow: 0 2px 12px rgba(23,90,226,0.08);
+    --shadow-hover: 0 8px 32px rgba(23,90,226,0.15);
+  }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #fff;
+    padding: 36px 40px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 30%;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .header-inner { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
+  .header-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+  .header-sub {
+    font-size: 15px;
+    opacity: 0.8;
+    margin-bottom: 20px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .header-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    opacity: 0.85;
+  }
+  .header-meta-item .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* TABS */
+  .tab-nav {
+    background: #fff;
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .tab-nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    padding: 0 40px;
+  }
+  .tab-btn {
+    padding: 16px 28px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .tab-btn:hover { color: var(--primary); }
+  .tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+  }
+
+  /* CONTENT */
+  .content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 40px;
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* SECTION TITLES */
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 22px;
+    background: var(--primary);
+    border-radius: 2px;
+  }
+  .section-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 24px;
+    margin-left: 14px;
+  }
+
+  /* STAT CARDS */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .stat-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    transition: box-shadow 0.2s;
+  }
+  .stat-card:hover { box-shadow: var(--shadow-hover); }
+  .stat-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .stat-value {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-note {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* NARRATIVE BLOCK */
+  .narrative-block {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    margin-bottom: 32px;
+    border-left: 4px solid var(--primary);
+  }
+  .narrative-block p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #2d3748;
+    margin-bottom: 12px;
+  }
+  .narrative-block p:last-child { margin-bottom: 0; }
+
+  /* AHA MOMENTS */
+  .aha-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 700px) { .aha-grid { grid-template-columns: 1fr; } }
+  .aha-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .aha-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .aha-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+  }
+  .aha-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .aha-card h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .aha-card p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* STRATEGIC DIRECTION */
+  .strategy-block {
+    background: linear-gradient(135deg, var(--primary-light) 0%, #dce8ff 100%);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    border: 1px solid rgba(23,90,226,0.2);
+    margin-bottom: 40px;
+  }
+  .strategy-block h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .strategy-block h3 .icon { font-size: 20px; }
+  .strategy-pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 600px) { .strategy-pillars { grid-template-columns: 1fr; } }
+  .strategy-pillar {
+    background: #fff;
+    border-radius: 8px;
+    padding: 18px 20px;
+    border: 1px solid rgba(23,90,226,0.15);
+  }
+  .strategy-pillar .pillar-tag {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .strategy-pillar h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .strategy-pillar p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* INSIGHT CARDS (pre-built) */
+  .insights-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    transition: box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover { box-shadow: var(--shadow-hover); }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), #4a90e2);
+  }
+  .card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    line-height: 1.4;
+    padding-right: 80px;
+  }
+  .card p {
+    font-size: 14px;
+    color: #4a5568;
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+  .card p:last-of-type { margin-bottom: 16px; }
+  .card p b {
+    color: var(--primary);
+    font-weight: 700;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    position: absolute;
+    top: 24px;
+    right: 28px;
+  }
+
+  /* APPENDIX TABLE */
+  .appendix-table-wrap {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .appendix-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .appendix-table th {
+    background: var(--primary);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 14px 20px;
+    text-align: left;
+    letter-spacing: 0.03em;
+  }
+  .appendix-table td {
+    padding: 14px 20px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .appendix-table tr:last-child td { border-bottom: none; }
+  .appendix-table tr:nth-child(even) td { background: var(--bg); }
+  .appendix-table td:first-child {
+    font-weight: 600;
+    color: var(--text-muted);
+    width: 200px;
+  }
+
+  /* LEGEND / NOTE BLOCK */
+  .note-block {
+    background: #fffbeb;
+    border: 1px solid #f6d860;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 13px;
+    color: #744210;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .note-block strong { color: #92400e; }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 36px 0;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 24px 40px;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    background: #fff;
+    margin-top: 40px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .header { padding: 24px 20px 20px; }
+    .content { padding: 24px 20px; }
+    .tab-nav-inner { padding: 0 12px; }
+    .tab-btn { padding: 14px 16px; font-size: 13px; }
+    .card h3 { padding-right: 0; }
+    .badge { position: static; display: inline-block; margin-top: 12px; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-tag">CFP Report</div>
+    <h1>BCIS — Leadgen 3</h1>
+    <div class="header-sub">Creative Framework Performance · Phân tích chiến lược creative</div>
+    <div class="header-meta">
+      <div class="header-meta-item"><span class="dot"></span> Dự án: BCIS - Leadgen 3</div>
+      <div class="header-meta-item"><span class="dot"></span> 12 Insights</div>
+      <div class="header-meta-item"><span class="dot"></span> Ngày tạo: <span id="report-date"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB NAV -->
+<div class="tab-nav">
+  <div class="tab-nav-inner">
+    <button class="tab-btn active" onclick="switchTab('tong-quan', this)">📊 Tổng quan</button>
+    <button class="tab-btn" onclick="switchTab('insights', this)">💡 Insights</button>
+    <button class="tab-btn" onclick="switchTab('phu-luc', this)">📎 Phụ lục</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- TAB: TỔNG QUAN -->
+  <div class="tab-panel active" id="tab-tong-quan">
+
+    <!-- Key Stats -->
+    <div class="section-title">Chỉ số tổng quan</div>
+    <div class="section-desc">Snapshot nhanh về quy mô và độ phủ của phân tích CFP</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Tổng số Insights</div>
+        <div class="stat-value">12</div>
+        <div class="stat-note">Từ toàn bộ dataset CFP</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Finding tin cậy nhất</div>
+        <div class="stat-value" style="font-size:22px; padding-top:6px;">Animation</div>
+        <div class="stat-note">Medium confidence · Duy nhất trong dataset</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">SHAP CPQLead (Animation)</div>
+        <div class="stat-value" style="color: var(--success);">22.95%</div>
+        <div class="stat-note">Giảm CPQLead — chất lượng lead tốt hơn</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Reliability Combo xấu</div>
+        <div class="stat-value" style="color: var(--danger);">93.5%</div>
+        <div class="stat-note">Simple + Real + Shooting → tăng CPL</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">SHAP Student Experience</div>
+        <div class="stat-value" style="color: var(--danger);">+16.34%</div>
+        <div class="stat-note">Tăng CPL — bẫy chi phí cần tránh</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Dimension quan trọng nhất</div>
+        <div class="stat-value" style="font-size:18px; padding-top:8px;">Content Pillar</div>
+        <div class="stat-note">SHAP 41.11% trên impressions/inc</div>
+      </div>
+    </div>
+
+    <!-- Narrative -->
+    <div class="section-title">Narrative tổng quan</div>
+    <div class="section-desc">Bức tranh toàn cảnh về hiệu suất creative của BCIS Leadgen 3</div>
+    <div class="narrative-block">
+      <p>BCIS đang chạy leadgen với một danh mục creative đa dạng — nhiều pillar nội dung, nhiều production style, nhiều CTA khác nhau — và dữ liệu CFP cho thấy hệ thống này đang hoạt động, nhưng <strong>không đồng đều</strong>. Trên bề mặt, các chỉ số CPL và CPQLead đều có thể được tối ưu thông qua creative. Đây là điểm khởi đầu tốt: creative thực sự có tác động đo được đến chất lượng lead, không chỉ là volume.</p>
+      <p>Nhưng khi đào sâu vào data, một mâu thuẫn lớn xuất hiện: <strong>những gì trông có vẻ hiệu quả về mặt volume lại đang phá hoại chất lượng — và ngược lại.</strong> CTA 'Tìm hiểu thêm' giảm CPL nhưng tăng CPQLead: rẻ hơn để có lead, nhưng đắt hơn để có qualified lead. Đây là bẫy optimization phổ biến mà nhiều team rơi vào khi chỉ nhìn vào một metric duy nhất.</p>
+      <p>Insight quan trọng nhất: <strong>Animation là finding đáng tin cậy nhất</strong> (Medium confidence — duy nhất trong dataset), cho thấy rằng creative "đắt tiền hơn để sản xuất" thực ra tiết kiệm chi phí per qualified lead. Đây là tín hiệu chiến lược rõ ràng để phân tách hai luồng campaign theo objective.</p>
+    </div>
+
+    <!-- Aha Moments -->
+    <div class="section-title">Aha Moments</div>
+    <div class="section-desc">Những phát hiện counter-intuitive quan trọng nhất từ dataset</div>
+    <div class="aha-grid">
+      <div class="aha-card">
+        <div class="aha-num">1</div>
+        <h4>Animation: đắt hơn để sản xuất, rẻ hơn per qualified lead</h4>
+        <p>Animation TĂNG CPL nhưng GIẢM CPQLead (SHAP 22.95%, Medium confidence — duy nhất trong dataset). Trade-off counter-intuitive: thu hút ít lead hơn nhưng chất lượng cao hơn đáng kể.</p>
+      </div>
+      <div class="aha-card">
+        <div class="aha-num">2</div>
+        <h4>UGC "unpolished" không áp dụng cho BCIS</h4>
+        <p>Xu hướng industry 2025 "UGC outperforms" KHÔNG đúng với BCIS. Elaborate setup hiệu quả hơn Simple setup trên CPQLead. Premium education là exception quan trọng của rule này.</p>
+      </div>
+      <div class="aha-card">
+        <div class="aha-num">3</div>
+        <h4>Student Experience — emotional hook nhưng là bẫy chi phí</h4>
+        <p>Pillar thường được coi là "emotional hook" hấp dẫn lại là pillar tốn kém nhất: tăng CPQLead SHAP 12.46% VÀ tăng CPL SHAP 16.34%. Lãng phí budget mà không mang lại lead chất lượng.</p>
+      </div>
+      <div class="aha-card">
+        <div class="aha-num">4</div>
+        <h4>CTA "Tìm hiểu thêm" — nghịch lý optimization</h4>
+        <p>Rẻ hơn để có lead (giảm CPL) nhưng đắt hơn để có qualified lead (tăng CPQLead). Tối ưu CPL bằng soft CTA thực ra đang tăng chi phí thực sự của business.</p>
+      </div>
+      <div class="aha-card">
+        <div class="aha-num">5</div>
+        <h4>Combo "Simple + Real + Shooting" — tín hiệu loại bỏ ngay</h4>
+        <p>Reliability 93.5% trong việc TĂNG CPL — đây là cluster cần loại bỏ ngay, không phải test thêm. Reliability cao này là tín hiệu mạnh hiếm gặp trong CFP data.</p>
+      </div>
+      <div class="aha-card">
+        <div class="aha-num">6</div>
+        <h4>Content Pillar là dimension quyết định nhất</h4>
+        <p>content_key_pillar là dimension quan trọng nhất toàn dataset (SHAP 41.11% trên impressions/inc metric) — lựa chọn pillar nội dung có tác động lớn hơn bất kỳ yếu tố creative nào khác.</p>
+      </div>
+    </div>
+
+    <!-- Strategic Direction -->
+    <div class="section-title">Định hướng chiến lược</div>
+    <div class="section-desc">Hai luồng creative strategy được đề xuất dựa trên evidence từ CFP data</div>
+    <div class="strategy-block">
+      <h3><span class="icon">🎯</span> BCIS nên phân tách rõ ràng hai creative strategy theo objective</h3>
+      <div class="strategy-pillars">
+        <div class="strategy-pillar">
+          <div class="pillar-tag">Strategy 1 · CPQLead Optimization</div>
+          <h4>Winning Formula cho Lead Chất lượng</h4>
+          <p>Dùng <strong>Animation</strong> + <strong>Academic Excellence pillar</strong> + <strong>International Certification angle</strong> + <strong>Elaborate setup</strong>. Đây là 'winning formula' có evidence mạnh nhất — Animation là finding duy nhất đạt Medium confidence trong toàn bộ dataset. Ưu tiên sprint test ngay.</p>
+        </div>
+        <div class="strategy-pillar">
+          <div class="pillar-tag">Strategy 2 · Volume Optimization</div>
+          <h4>Formula cho Lead Volume</h4>
+          <p>Dùng <strong>Shooting</strong> + <strong>Real</strong> + <strong>Financial Accessibility pillar</strong> khi cần tăng volume lead. Tránh hoàn toàn combo <strong>Simple + Real + Shooting</strong> (reliability 93.5% tăng CPL). Không mix hai strategy trong cùng một ad set.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: INSIGHTS -->
+  <div class="tab-panel" id="tab-insights">
+
+    <div class="section-title">Insight Cards</div>
+    <div class="section-desc">3 insights được phân tích chi tiết theo framework O–E–I (Observation · Explanation · Implication)</div>
+
+    <div class="note-block">
+      <strong>📌 Lưu ý đọc báo cáo:</strong> Mỗi insight được cấu trúc theo framework <strong>O–E–I</strong>: <strong>O</strong> (Observation — dữ liệu thực tế), <strong>E</strong> (Explanation — giải thích cơ chế), <strong>I</strong> (Implication — hành động đề xuất). Badge góc phải cho biết Tier ưu tiên và mức độ tác động.
+    </div>
+
+    <div class="insights-container">
+
+      <div class="card"><h3>INS-01 — Animation là vũ khí tối ưu chất lượng lead — nhưng không phải vũ khí tăng volume</h3><p><b>O:</b> Animation là finding có độ tin cậy cao nhất trong toàn bộ dataset: SHAP 22.95% trên CPQLead decrease, confidence 49.2% (Medium — duy nhất trong dataset), direction stability CPQLead=0.63. Đồng thời, Animation cũng tăng CPL (SHAP 3.48%, Low) — nghĩa là nó thu hút ít lead hơn nhưng lead chất lượng cao hơn. Shooting ngược lại: tăng CPQLead (SHAP 4.23%) và tăng CPL (SHAP 3.18%) — hiệu quả volume nhưng kém chất lượng.</p><p><b>E:</b> Animation cho phép kiểm soát hoàn toàn narrative và visual — không bị phân tâm bởi yếu tố con người thật, không gian thật. Với phụ huynh đang ở giai đoạn cân nhắc (consideration), animation có thể truyền tải thông tin phức tạp (chương trình học, lộ trình phát triển) một cách rõ ràng hơn, thu hút đúng phân khúc phụ huynh nghiêm túc. Shooting (video quay thật) tạo cảm giác gần gũi, thu hút nhiều người click hơn nhưng không lọc được intent — dẫn đến volume lead cao, chất lượng thấp hơn.</p><p><b>I:</b> Phân tách mục tiêu campaign theo production type: (1) Nếu campaign tối ưu CPQLead (lead quality), ưu tiên Animation làm format chủ đạo. (2) Nếu campaign tối ưu volume CPL, dùng Shooting + Real + Simple setup. Không mix hai loại trong cùng một ad set — chúng phục vụ hai funnel objective khác nhau. Đây là finding đáng tin cậy nhất trong dataset, nên được ưu tiên test ngay trong sprint tiếp theo.</p><span class="badge">Tier 1 · High</span></div>
+
+      <div class="card"><h3>INS-02 — Academic Excellence là trụ cột nội dung hiệu quả nhất cho lead chất lượng — Student Experience là bẫy chi phí</h3><p><b>O:</b> content_key_pillar là dimension quan trọng nhất toàn dataset (SHAP 41.11% trên impressions/inc metric). Trên CPQLead (direction stability=0.63 — đáng tin cậy): 'Academic Excellence' giảm CPQLead (SHAP 5.32%), 'Financial Accessibility' cũng có xu hướng giảm CPQLead. Ngược lại, 'Student Experience' tăng CPQLead (SHAP 12.46%) — tức là tốn tiền hơn để có được một qualified lead. Trên CPL (stability=0.43 — chỉ là xu hướng): 'Student Experience' tăng CPL 16.34% SHAP weight.</p><p><b>E:</b> Phụ huynh Việt Nam đang ở giai đoạn tìm kiếm trường quốc tế chủ yếu bị thúc đẩy bởi lo ngại về chất lượng học thuật và khả năng tài chính (Tier 2: findingschool.com — ba yếu tố ưu tiên của gia đình Việt Nam). 'Student Experience' (cộng đồng bạn bè, trải nghiệm học đường) là yếu tố cảm xúc thu hút nhiều người xem nhưng không lọc được intent — người click vào content này chưa chắc đã sẵn sàng đăng ký. 'Academic Excellence' và 'Financial Accessibility' đánh trúng pain point thực sự của phụ huynh đang cân nhắc nghiêm túc.</p><p><b>I:</b> Giảm tỷ trọng creative khai thác 'Student Experience' pillar trong các campaign tối ưu lead quality. Tăng tỷ trọng 'Academic Excellence' (kết hợp với International Certification angle — xem combo data) và 'Financial Accessibility' (kết hợp Scholarship angle). Nếu muốn giữ Student Experience, chỉ dùng cho awareness/reach campaign, không dùng cho leadgen campaign tối ưu CPQLead.</p><span class="badge">Tier 1 · High</span></div>
+
+      <div class="card"><h3>INS-03 — Elaborate setup nghịch lý với giả thuyết UGC: chất lượng sản xuất cao thực sự hiệu quả hơn cho BCIS</h3><p><b>O:</b> Elaborate setup giảm CPQLead (SHAP 17.94%, Low, confidence 33.36%) và giảm CPL (SHAP 10.34%, Low, confidence 37.28%) — directionally tích cực trên cả hai metrics. Simple setup tăng CPL (SHAP 7.77%) nhưng giảm CPQLead (SHAP 3.29%) — split signal. Combo 'Simple setup + Real + Shooting' xuất hiện trong 3 combo rows với CPL tăng +1.42% above average, reliability 93.5% — nhưng đây là CPL tăng (xấu), không phải giảm.</p><p><b>E:</b> BCIS là trường quốc tế premium — phụ huynh mục tiêu có thu nhập cao, kỳ vọng cao về chất lượng. Elaborate setup (studio lighting, professional cinematography, polished graphics) phù hợp với brand positioning premium và tạo tín hiệu chất lượng ngay từ visual. Điều này trái với xu hướng 'unpolished UGC outperforms' phổ biến trong nhiều ngành — nhưng premium education là một exception quan trọng. Phụ huynh đang cân nhắc học phí hàng trăm triệu/năm cần thấy sự chuyên nghiệp trong mọi touchpoint, kể cả quảng cáo.</p><p><b>I:</b> Không áp dụng playbook UGC/lo-fi cho BCIS. Duy trì và tăng đầu tư vào Elaborate setup cho các creative tối ưu CPQLead. Loại bỏ hoặc giảm mạnh combo Simple + Real + Shooting — reliability 93.5% tăng CPL là tín hiệu đủ mạnh để hành động ngay mà không cần test thêm. Nếu cần test Simple setup, chỉ kết hợp với Animation (không phải Shooting/Real) để tránh cluster xấu đã được xác nhận.</p><span class="badge">Tier 1 · High</span></div>
+
+    </div>
+  </div>
+
+  <!-- TAB: PHỤ LỤC -->
+  <div class="tab-panel" id="tab-phu-luc">
+
+    <div class="section-title">Thông tin dự án</div>
+    <div class="section-desc">Metadata và thông tin cơ bản của báo cáo CFP này</div>
+
+    <div class="appendix-table-wrap">
+      <table class="appendix-table">
+        <thead>
+          <tr>
+            <th>Trường thông tin</th>
+            <th>Giá trị</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tên dự án</td>
+            <td>BCIS - Leadgen 3</td>
+          </tr>
+          <tr>
+            <td>Kênh (Channel)</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>Khách hàng (Client)</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>Loại báo cáo</td>
+            <td>Creative Framework Performance (CFP)</td>
+          </tr>
+          <tr>
+            <td>Tổng số Insights</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>Finding tin cậy nhất</td>
+            <td>Animation — Medium confidence (49.2%), duy nhất trong dataset</td>
+          </tr>
+          <tr>
+            <td>Ngày tạo báo cáo</td>
+            <td id="appendix-date">—</td>
+          </tr>
+          <tr>
+            <td>Framework phân tích</td>
+            <td>O–E–I (Observation · Explanation · Implication)</td>
+          </tr>
+          <tr>
+            <td>Phương pháp đo lường</td>
+            <td>SHAP value analysis · Direction stability · Reliability scoring</td>
+          </tr>
+          <tr>
+            <td>Metrics chính</td>
+            <td>CPL (Cost Per Lead) · CPQLead (Cost Per Qualified Lead)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-title">Giải thích thuật ngữ</div>
+    <div class="section-desc">Các khái niệm kỹ thuật được sử dụng trong báo cáo</div>
+
+    <div class="appendix-table-wrap">
+      <table class="appendix-table">
+        <thead>
+          <tr>
+            <th>Thuật ngữ</th>
+            <th>Giải thích</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>SHAP Value</td>
+            <td>Chỉ số đo lường mức độ đóng góp của một feature vào kết quả dự đoán. SHAP càng cao → feature đó càng có tác động lớn đến metric.</td>
+          </tr>
+          <tr>
+            <td>Direction Stability</td>
+            <td>Độ ổn định của chiều tác động (tăng/giảm). Stability = 1.0 nghĩa là luôn cùng chiều; 0.5 nghĩa là không ổn định. Ngưỡng đáng tin cậy: ≥ 0.6.</td>
+          </tr>
+          <tr>
+            <td>Confidence Level</td>
+            <td>Mức độ tin cậy của finding: Low (&lt;35%), Medium (35–55%), High (&gt;55%). Trong dataset này, Medium là mức cao nhất đạt được.</td>
+          </tr>
+          <tr>
+            <td>CPL</td>
+            <td>Cost Per Lead — chi phí để có được một lead (bất kỳ). Metric volume.</td>
+          </tr>
+          <tr>
+            <td>CPQLead</td>
+            <td>Cost Per Qualified Lead — chi phí để có được một lead đủ tiêu chuẩn. Metric chất lượng — quan trọng hơn CPL cho business outcome.</td>
+          </tr>
+          <tr>
+            <td>Reliability</td>
+            <td>Tỷ lệ % các trường hợp mà một combo creative cho kết quả nhất quán. Reliability 93.5% = 93.5% lần combo đó xuất hiện, kết quả đều theo cùng một chiều.</td>
+          </tr>
+          <tr>
+            <td>Elaborate Setup</td>
+            <td>Production style với đầu tư cao: studio lighting, professional cinematography, polished graphics, controlled environment.</td>
+          </tr>
+          <tr>
+            <td>Simple Setup</td>
+            <td>Production style đơn giản hơn, gần với UGC (User Generated Content) style — ít kiểm soát môi trường quay hơn.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-title">Lưu ý phương pháp luận</div>
+    <div class="section-desc">Các giới hạn và điều kiện áp dụng của phân tích này</div>
+
+    <div class="note-block">
+      <strong>⚠️ Giới hạn của phân tích:</strong> Toàn bộ findings trong báo cáo này dựa trên SHAP value analysis từ CFP model — đây là phân tích tương quan, không phải nhân quả tuyệt đối. Các findings ở mức Low confidence nên được xem là xu hướng định hướng, không phải kết luận chắc chắn. Chỉ Animation đạt Medium confidence — đây là finding duy nhất có đủ độ tin cậy để hành động ngay mà không cần test thêm. Các findings khác nên được validate qua A/B test có kiểm soát trước khi scale.
+    </div>
+
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  CFP Report · BCIS Leadgen 3 · Được tạo tự động từ hệ thống phân tích Creative Framework Performance
+</div>
+
+<script>
+  function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tabId).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Set dates
+  const now = new Date();
+  const opts = { year: 'numeric', month: 'long', day: 'numeric' };
+  const dateStr = now.toLocaleDateString('vi-VN', opts);
+  document.getElementById('report-date').textContent = dateStr;
+  document.getElementById('appendix-date').textContent = dateStr;
+</script>
+
+</body>
+</html>
